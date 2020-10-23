@@ -1,30 +1,44 @@
 from tkinter import *
 from tkinter import filedialog 
 from tkinter import scrolledtext as st
+import re
 
+global filename
 filename=""
 
-# Function to perform preprocessing like remove punctuations etc and extract words
-def preprocess(txt):
-    lines=txt.split("\n")
-    sentences=txt.split(".")
-    sentences=sentences[:-1]
-    words=[]
-    for i in sentences:
+# Read given input file
+def read_file(file):
+    data1=open(file,"r") # opens the file 
+    text=data1.read()
+    return text  
+
+# Returns the frequency, bin length, and count of the unique words
+def get_freq(wordl):
+    (unique, count) = np.unique(wordl, return_count=True)
+    freq = np.asarray((unique, count)).T
+    bin =set(count)
+    len_bin=len(bin)
+    # Sorting the freq
+    freq=sorted(freq,key=lambda row: row[1]) 
+    freq=np.array(freq)
+    return (len_bin,freq,count)
+
+# splitting and removing ' ','.','\n' characters 
+def preprocess_text(text):
+    nwln=text.split("\n")
+    sentencespl=text.split(".")
+    sentencespl=sentencespl[:-1]
+    sentences=[]
+    for i in sentencespl:
         k=0
         if i[k]==" ":
             k+=1
         if i[k]=="\n":
             k+=1
-        words.append(i[k:])
-    return (lines,words)
+        sentences.append(i[k:])
+    return (nwln,sentences)
 
-
-# Read the input file
-def read_file(file):
-    dat=open(file,"r") # opens the file 
-    txt=dat.read()
-    return txt
+filename=""
 
 def browseFiles(): 
     fname = filedialog.askopenfilename(initialdir = "/", 
