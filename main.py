@@ -4,6 +4,28 @@ from tkinter import scrolledtext as st
 
 filename=""
 
+# Function to perform preprocessing like remove punctuations etc and extract words
+def preprocess(txt):
+    lines=txt.split("\n")
+    sentences=txt.split(".")
+    sentences=sentences[:-1]
+    words=[]
+    for i in sentences:
+        k=0
+        if i[k]==" ":
+            k+=1
+        if i[k]=="\n":
+            k+=1
+        words.append(i[k:])
+    return (lines,words)
+
+
+# Read the input file
+def read_file(file):
+    dat=open(file,"r") # opens the file 
+    txt=dat.read()
+    return txt
+
 def browseFiles(): 
     fname = filedialog.askopenfilename(initialdir = "/", 
                                           title = "Select the Input File", 
