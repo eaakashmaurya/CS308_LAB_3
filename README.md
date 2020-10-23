@@ -1,4 +1,4 @@
-# CS0308_Lab3
+# CS308_Lab3
 
 #### Course Instructor - Dr. Padmanabhan Rajan
 
