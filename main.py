@@ -4,6 +4,13 @@ from tkinter import scrolledtext as st
 
 filename=""
 
+# Read the input file
+def read_file(file):
+    dat=open(file,"r") # opens the file 
+    txt=dat.read()
+    return txt
+
+
 def browseFiles(): 
     fname = filedialog.askopenfilename(initialdir = "/", 
                                           title = "Select the Input File", 
