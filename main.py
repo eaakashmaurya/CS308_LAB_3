@@ -47,7 +47,7 @@ def browseFiles():
                                                         "*.txt*"), 
                                                        ("all files", 
                                                         "*.*"))) 
-    lbl.configure(text="File Opened: "+filename) 
+    label.configure(text="File Opened: "+fname) 
     filename=fname
 
 root = Tk() 
@@ -56,8 +56,8 @@ root.title("Text_Analyser_LAB_3")
 root.geometry('800x600') 
   
 # adding a label to the root window 
-lbl = Label(root, text = "Choose a file to run") 
-lbl.grid(column=0, row=0) 
+label = Label(root, text = "Choose a file to run") 
+label.grid(column=2, row=0) 
 
 
 btn = Button(root, text = "Browse files" , 
