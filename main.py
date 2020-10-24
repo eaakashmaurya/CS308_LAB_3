@@ -37,6 +37,18 @@ def preprocess_text(text):
             k+=1
         sentences.append(i[k:])
     return (nwln,sentences)
+# removing the stopwords from the words list and lowercasing
+def remove_common_words(text):
+    data=re.sub(r'[^\w\s]', '', text) 
+    data=data.lower()
+    data=data.split()
+    # Commonly occured words 
+    extra=set(stopwords.words('english'))
+    mod_data=[]
+    for i in data:
+        if i not in extra:
+            mod_data.append(i)
+    return (mod_data,data)
 
 filename=""
 
