@@ -40,6 +40,45 @@ def preprocess_text(text):
 
 filename=""
 
+# Function to add information to the widgets
+def driver_widget():
+    # Get stats from driver function
+    freq,sent_no,nwl_nno,word_no,max_word,max_word_count = driver(fname)
+    # Configure information to display
+    lbl_sentences.configure(text="No of sentences in file: "+sent_no)
+    lbl_newlines.configure(text="No of newlines in file: "+nwl_nno)
+    lbl_wcount.configure(text="No of words in file: "+word_no)
+    lbl_frequency.configure(text="word with most frequency in file: '"+max_word+"'\nIts frequency: "+max_word_count)
+    
+    # Add labels
+    lbl_search_label = Label(root,text="Enter the words to search separated by space or")
+    lbl_search_label.grid(column=1,row=2)  
+    
+    # Button to plot histogram
+    hist_plot_btn= Button(root, text = "Plot Histogram" , 
+            command=hist_p) 
+    hist_plot_btn.grid(column=0,row=1)
+    edit_btn = Button(root, text = "Edit" ,command=edit_1) 
+    edit_btn.grid(column=2,row=1)
+
+    # Show results of the search
+    global text_area
+    text_area = Entry(root, width=10) 
+    text_area.grid(column = 1, row=3,pady = 1, padx = 5) 
+   
+    global lbl_upload_2
+    # Labels and buttons
+    lbl_upload_2 = Label(root, text = "Upload file of keywords separated by space (keep input text blank)") 
+    lbl_upload_2.grid(column=1, row=4) 
+    up_btn = Button(root, text = "Upload file" , 
+            command=browseFiles_search) 
+    up_btn.grid(column=1,row=5)
+
+    # Placing these onto the screen
+    exe_btn =Button(root, text = "Execute" ,command=find1) 
+    exe_btn.grid(column=2,row=5)
+    
+
 def browseFiles(): 
     fname = filedialog.askopenfilename(initialdir = "/", 
                                           title = "Select the Input File", 
