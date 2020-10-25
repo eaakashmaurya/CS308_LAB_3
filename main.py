@@ -50,6 +50,60 @@ def preprocess_text(text):
             k+=1
         sentences.append(i[k:])
     return (nwln,sentences)
+
+
+# Opens the notepad for editing
+def edit_1():
+    programName = "notepad.exe"
+    sp.Popen([programName, fname])
+
+# Function to find occurence of a particular words in the file
+def find_1():
+    words=text_area.get()
+    if words=="":
+        dat=open(fname2,"r")
+        txt=dat.read()
+        words=words.lower()
+        words=txt.split()
+    else:
+        words=words.lower()
+        words=words.split()
+    out=""
+    # Prints the the setences where word is found onto the text box
+    for i in words:
+        out+="The word '"+i+"' is in the following statements:\n"
+        for k in sentences3:
+            mn=k.lower()
+            mn=re.sub(r'[^\w\s]', '', mn) 
+            if i in mn.split():
+                out+= k+"\n"
+        out+="\n"
+
+    # Adding the necessary widgets
+    t_area = st.ScrolledText(root, 
+                            width = 50,  
+                            height = 8,  
+                            font = ("Times New Roman", 
+                                    12),bg='#f2e9e4') 
+    t_area.grid(column = 3,row=7, pady = 10, padx = 10,columnspan=5,sticky='w')  
+    t_area.insert(INSERT,out)
+    t_area.configure(state='disabled')
+
+# Funtion to browse the files using tkinter's filedialog system
+def browseFiles_search(): 
+    filename = filedialog.askopenfilename(initialdir = "/", 
+                                          title = "Select a File", 
+                                          filetypes = (("Text files", 
+                                                        "*.txt*"), 
+                                                       ("all files", 
+                                                        "*.*"))) 
+    lbl_upload_2.configure(text="File Opened: "+filename+"\n(Keep above input blank)") 
+    global fname2
+    fname2=filename
+
+
+
+
 # removing the stopwords from the words list and lowercasing
 def remove_common_words(text):
     data=re.sub(r'[^\w\s]', '', text) 
@@ -123,7 +177,7 @@ def driver_widget():
     up_btn.grid(column=1,row=5)
 
     # Placing these onto the screen
-    exe_btn =Button(root, text = "Execute" ,command=find1) 
+    exe_btn =Button(root, text = "Execute" ,command=find_1) 
     exe_btn.grid(column=2,row=5)
 
     # Button to plot the histogram
