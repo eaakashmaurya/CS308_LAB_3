@@ -7,6 +7,8 @@ import nltk
 nltk.download('stopwords')
 import numpy as np
 import matplotlib.pyplot as plt
+import subprocess as sp
+
 
 global filename
 filename=""
@@ -102,12 +104,14 @@ def driver_widget():
     lbl_wcount.configure(text="No of words in file: "+word_no)
     lbl_frequency.configure(text="word with most frequency in file: '"+max_word+"'\nIts frequency: "+max_word_count)
     
+
     # Button to plot histogram
-    hist_plot_btn= Button(root, text = "Plot Histogram" , 
-            command=hist_p) 
-    hist_plot_btn.grid(column=0,row=1)
-    edit_btn = Button(root, text = "Edit" ,command=edit_1) 
-    edit_btn.grid(column=2,row=1)
+   # hist_plot_btn= Button(root, text = "Plot Histogram" , 
+   #         command=hist_p) 
+   # hist_plot_btn.grid(column=0,row=1)
+
+   # edit_btn = Button(root, text = "Edit" ,command=edit_file) 
+   # edit_btn.grid(column=2,row=1)
 
     # Show results of the search
     global text_area
@@ -116,15 +120,15 @@ def driver_widget():
    
     global lbl_upload_2
     # Labels and buttons
-    lbl_upload_2 = Label(root, text = "Upload file of keywords separated by space (keep input text blank)") 
-    lbl_upload_2.grid(column=1, row=4) 
+    lbl_upload_2 = Label(root, text = "Upload keywords file") 
+    lbl_upload_2.grid(column=3, row=4) 
     up_btn = Button(root, text = "Upload file" , 
-            command=browseFiles_search) 
-    up_btn.grid(column=1,row=5)
+            command=Files_search) 
+    up_btn.grid(column=3,row=5)
 
     # Placing these onto the screen
-    exe_btn =Button(root, text = "Execute" ,command=find1) 
-    exe_btn.grid(column=2,row=5)
+    exe_btn =Button(root, text = "Execute" ,command=find_word) 
+    exe_btn.grid(column=3,row=7)
 
     # Button to plot the histogram
     hist_plot_btn= Button(root, text = "Plot Histogram" , 
@@ -142,6 +146,41 @@ def browseFiles():
     label.configure(text="File Opened: "+fname) 
     global filename
     filename=fname
+
+def Files_search(): 
+    filename = filedialog.askopenfilename(initialdir = "/", title = "Select a File", filetypes = (("Text files","*.txt*"), ("all files", "*.*"))) 
+    lbl_upload_2.configure(text="File Opened: "+filename+"\n(Keep above input blank)") 
+    global fname
+    fname = filename
+
+    
+def find_word():        
+    words=text_area.get()
+    if words=="":
+        data1=open(filename,"r")
+        text=data1.read()
+        words=words.lower()
+        words=text.split()
+    else:
+        words=words.lower()
+        words=words.split()
+    output=""
+    # Prints the the setences where word is found onto the text box
+    for i in words:
+        output+="The word '"+i+"' is in the following statements:\n"
+        for k in sentences3:
+            wrd=k.lower()
+            wrd=re.sub(r'[^\w\s]', '', wrd) 
+            if i in wrd.split():
+                output+= k+"\n"
+        output+="\n"
+
+    # Adding the necessary widgets
+    t_area = st.ScrolledText(root, width = 50,  height = 8,  font = ("Times New Roman", 12),bg='#f2e9e4') 
+    t_area.grid(column = 3,row=7, pady = 10, padx = 10,columnspan=5,sticky='w')  
+    t_area.insert(INSERT,output)
+    t_area.configure(state='disabled')
+
 
 root = Tk() 
 # root window title and dimension 
